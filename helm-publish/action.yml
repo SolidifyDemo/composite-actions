@@ -1,0 +1,19 @@
+name: 'publish-helm-chart'
+description: 'publish helm chart to ACR'
+inputs:
+  azure-credentials:  
+    description: 'A azure credentials to login to azure'
+    required: true    
+outputs:
+  random-number:
+    description: "result"
+    value: ${{ steps.azure-login.outputs.success }}
+runs:
+  using: "composite"
+  steps:    
+    - id: azure-login        
+      uses: azure/login@v1
+      with:
+        creds: ${{ inputs.azure-credentials}}
+    - run: echo "::set-output name=success::$(echo true)"
+      shell: bash
