@@ -21,7 +21,7 @@ runs:
       shell: bash
       run: |
          export HELM_EXPERIMENTAL_OCI=1
-         helm registry login ${{ inputs.helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-passwords }}
+         helm registry login ${{ inputs.helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-password }}
     - name: publish
       shell: bash
       run: |
