@@ -1,9 +1,6 @@
 name: 'publish-helm-chart'
 description: 'publish helm chart to ACR'
 inputs:
-  azure-credentials:  
-    description: 'A azure credentials to login to azure'
-    required: true    
   chart-path: 
     description: 'the path to the helm chart, ".helm/<my-chart>"'
     required: true
@@ -17,7 +14,6 @@ inputs:
     description: 'the password to authenticate to the external registry'
     required: true
 
-
 runs:
   using: "composite"
   steps:    
@@ -25,13 +21,13 @@ runs:
       shell: bash
       run: |
          export HELM_EXPERIMENTAL_OCI=1
-         helm registry login ${{ helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-passwords }}
+         helm registry login ${{ inputs.helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-passwords }}
     - name: publish
       shell: bash
       run: |
           export HELM_EXPERIMENTAL_OCI=1
           helm package ${{inputs.chart-path}}
-          helm push *.tgz oci://${{ steps.GetSecrets.outputs.acr-server-url }}/helm
+          helm push *.tgz oci://${{ inputs.helm-registry-url }}/helm
 
     
     
