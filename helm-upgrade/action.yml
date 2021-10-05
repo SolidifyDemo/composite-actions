@@ -37,7 +37,7 @@ runs:
          rm -f kubelogin-linux-amd64.zip
          kubelogin --version
     - name: Azure Login
-      uses: actions/login@v1
+      uses: azure/login@v1
       with:
         creds: ${{inputs.azure-credentials}}
     - name: set kubeconfig env variable
