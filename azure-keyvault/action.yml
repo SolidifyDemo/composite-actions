@@ -1,0 +1,31 @@
+name: 'get-keyvault-secrets'
+description: 'get secrets from keyvault and output them'
+inputs:
+  azure-credentials: 
+    description: 'credentials to login to Azure'
+    required: true
+  keyvault-name: 
+    description: 'the name of the keyvault'
+    required: true
+  keyvault-secrets:
+    description: 'the username to authenticate to the external registry'
+    required: true
+outputs:
+  secrets: 
+    description: 'the output from the keyvault fetch'
+    value:   ${{steps.GetSecrets.outputs}}
+
+runs:
+  using: "composite"
+  steps:    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ inputs.azure-credentials }}
+        
+    - name: 'Get keyvault secret'
+      uses: Azure/get-keyvault-secrets@v1
+      with: 
+        keyvault: ${{inputs.keyvault-name}}
+        secrets: ${{intputs.keyvault-secrets}}
+      id: GetSecrets
