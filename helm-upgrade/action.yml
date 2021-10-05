@@ -47,7 +47,7 @@ runs:
     - name: set cluster context
       shell: bash
       run: |
-        az aks get-credentials --subscription ${{inputs.azure-subscription}} --resource-group ${{azure-resource-group}} --name ${{cluster-name}} -f ${KUBECONFIG}
+        az aks get-credentials --subscription ${{inputs.azure-subscription}} --resource-group ${{inputs.azure-resource-group}} --name ${{inputs.cluster-name}} -f ${KUBECONFIG}
         kubelogin convert-kubeconfig -l azurecli  
     - name: helm 'helm-upgrade' 
       shell: bash 
