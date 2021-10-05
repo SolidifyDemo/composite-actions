@@ -4,16 +4,40 @@ inputs:
   azure-credentials:  
     description: 'A azure credentials to login to azure'
     required: true    
-outputs:
-  random-number:
-    description: "result"
-    value: ${{ steps.azure-login.outputs.success }}
+  keyvault-name: 
+    description:  'the name of the keyvault'
+    required: true
+  keyvault-secrets: 
+    description:  'secrets that should be pulled from keyvault'
+    required: true
+  chart-path: 
+    description: 'the path to the helm chart, ".helm/<my-chart>"'
+    required: true
+
 runs:
   using: "composite"
   steps:    
-    - id: azure-login        
+    - name: login to azure 
       uses: azure/login@v1
       with:
-        creds: ${{ inputs.azure-credentials}}
-    - run: echo "::set-output name=success::$(echo true)"
-      shell: bash
+        creds: ${{ inputs.azure-credentials}}    
+      id: azure-login        
+
+    - name: 'Get keyvault secret'
+      uses: Azure/get-keyvault-secrets@v1
+      with: 
+        keyvault: helm package ${{inputs.chart-path}}
+        secrets: ${{inputs.keyvault-secrets}}
+      id: GetSecrets
+    - name: registry
+      run: |
+         export HELM_EXPERIMENTAL_OCI=1
+         helm registry login ${{ steps.GetSecrets.outputs.acr-server-url }}  --username ${{ steps.GetSecrets.outputs.acr-username }}   --password ${{ steps.GetSecrets.outputs.acr-password }}
+    - name: publish
+      run: |
+          export HELM_EXPERIMENTAL_OCI=1
+          helm package ${{inputs.chart-path}}
+          helm push *.tgz oci://${{ steps.GetSecrets.outputs.acr-server-url }}/helm
+
+    
+    
