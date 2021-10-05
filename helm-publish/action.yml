@@ -4,35 +4,27 @@ inputs:
   azure-credentials:  
     description: 'A azure credentials to login to azure'
     required: true    
-  keyvault-name: 
-    description:  'the name of the keyvault'
-    required: true
-  keyvault-secrets: 
-    description:  'secrets that should be pulled from keyvault'
-    required: true
   chart-path: 
     description: 'the path to the helm chart, ".helm/<my-chart>"'
     required: true
+  helm-registry-url: 
+    description: 'the full url to the acr'
+    required: true
+  helm-registry-username:
+    description: 'the username to authenticate to the external registry'
+    required: true
+  helm-registry-password:
+    description: 'the password to authenticate to the external registry'
+    required: true
+
 
 runs:
   using: "composite"
   steps:    
-    - name: login to azure 
-      uses: azure/login@v1
-      with:
-        creds: ${{ inputs.azure-credentials}}    
-      id: azure-login        
-
-    - name: 'Get keyvault secret'
-      uses: Azure/get-keyvault-secrets@v1
-      with: 
-        keyvault: helm package ${{inputs.chart-path}}
-        secrets: ${{inputs.keyvault-secrets}}
-      id: GetSecrets
     - name: registry
       run: |
          export HELM_EXPERIMENTAL_OCI=1
-         helm registry login ${{ steps.GetSecrets.outputs.acr-server-url }}  --username ${{ steps.GetSecrets.outputs.acr-username }}   --password ${{ steps.GetSecrets.outputs.acr-password }}
+         helm registry login ${{ helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-passwords }}
     - name: publish
       run: |
           export HELM_EXPERIMENTAL_OCI=1
