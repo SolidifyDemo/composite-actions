@@ -22,10 +22,12 @@ runs:
   using: "composite"
   steps:    
     - name: registry
+      shell: bash
       run: |
          export HELM_EXPERIMENTAL_OCI=1
          helm registry login ${{ helm-registry-url }}  --username ${{ inputs.helm-registry-username }}   --password ${{ inputs.helm-registry-passwords }}
     - name: publish
+      shell: bash
       run: |
           export HELM_EXPERIMENTAL_OCI=1
           helm package ${{inputs.chart-path}}
