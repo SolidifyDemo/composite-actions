@@ -1,0 +1,59 @@
+name: 'helm-upgrade'
+description: 'publish helm chart to ACR'
+inputs:
+  azure-credentials:
+    description: 'credentials to login to Azure'
+    required: true
+  chart-path: 
+    description: 'the path to the helm chart, ".helm/<my-chart>"'
+    required: true
+  azure-subscription: 
+    description: 'subscription where the cluster is provisioned'
+    required: true
+  azure-resource-group:
+    description: 'the resource group where the cluster provisioned'
+    required: true
+  cluster-name:
+    description: 'name of the cluster to targe'
+    required: true
+  image-tag:
+    description: 'the image tag to use in the helm chart'
+    required: true
+  cluster-namespace:
+    description: 'the namespace to target'
+    required: true
+  deployment-name:
+    description: 'the name of the deployment "kubectl get deployments"'
+    required: true
+
+runs:
+  using: "composite"
+  steps:    
+    - name: setup kubelogin for non-interactive logion
+      shell: bash
+      run: |
+         curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
+         sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
+         rm -f kubelogin-linux-amd64.zip
+         kubelogin --version
+    - name: Azure Login
+      uses: actions/login@v1
+      with:
+        creds: ${{inputs.azure-credentials}}
+    - name: set kubeconfig env variable
+      shell: bash
+      run: |
+        echo "KUBECONFIG=${RUNNER_TEMP}/kubeconfig-$(date +%s)" >> $GITHUB_ENV  
+    - name: set cluster context
+      shell: bash
+      run: |
+        az aks get-credentials --subscription ${{inputs.azure-subscription}} --resource-group ${{azure-resource-group}} --name ${{cluster-name}} -f ${KUBECONFIG}
+        kubelogin convert-kubeconfig -l azurecli  
+    - name: helm 'helm-upgrade' 
+      shell: bash 
+      run: |
+        helm upgrade --install --set image.tag=${{ inputs.image-tag }} --namespace=${{ inputs.cluster-namespace}}  ${{ inputs.deployment-name }} ${{ inputs.chart-path }}
+
+
+    
+    
