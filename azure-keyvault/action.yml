@@ -10,10 +10,6 @@ inputs:
   keyvault-secrets:
     description: 'the username to authenticate to the external registry'
     required: true
-outputs:
-  secrets: 
-    description: 'the output from the keyvault fetch'
-    value:   ${{steps.GetSecrets.outputs}}
 
 runs:
   using: "composite"
@@ -27,5 +23,6 @@ runs:
       uses: Azure/get-keyvault-secrets@v1
       with: 
         keyvault: ${{inputs.keyvault-name}}
-        secrets: ${{intputs.keyvault-secrets}}
+        secrets: ${{inputs.keyvault-secrets}}
       id: GetSecrets
+    
