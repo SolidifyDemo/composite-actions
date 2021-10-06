@@ -1,7 +1,5 @@
 # Get keyvault secrets from Azure
 
-  
-
 ## Purpose
 
 the purpose of the composite action is to centralize the code that is used in a single file and avoid misconfiguration and duplicate code.
@@ -20,17 +18,29 @@ if this repository is checked into a public repository see example 2.
 
 ## parameters
 
-- azure-credentials: the credentials used to login to Azure
+- **azure-credentials**: 
+
+    **Description:** ``the credentials used to login to Azure     ``
     
-    SAMPLE: ${{AZURE_CREDENTIALS}}
+    **Required:** ``true``
 
-- keyvault-name: the name of the keyvault that secrets should be fetched from.
+    **Sample:**  ``${{AZURE_CREDENTIALS}}``
 
-    SAMPLE: mykeyvault
+- **keyvault-name**: 
 
-- keyvault-secrets: a comma seperated list of secrets
+    **Description:** ``the name of the keyvault that secrets should be fetched from.``
 
-    SAMPLE: "secret1,secret2,secret3"
+    **Required:** ``true``
+    
+    **Sample:** ``mykeyvault``
+
+- **keyvault-secrets:**
+
+    **Description:**  ``A comma seperated string of secrets``
+
+    **Required:** ``true``
+    
+    **Sample:** ``"secret1,secret2,secret3"``
 
   
 

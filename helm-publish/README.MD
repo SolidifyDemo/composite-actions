@@ -19,20 +19,36 @@ if this repository is checked into a public repository see example 2.
   
 
 ## parameters
-- chart-path: the path to the helm chart
+- **chart-path:** 
 
-    SAMPLE:  ".helm/<my-chart>"
-    
-- helm-registry-url: The full url to the remote registry
+    **Description:** ``the path to the helm chart``
 
-    SAMPLE: "https://myacr.azurecr.io"    
-- helm-registry-username: The username to authenticate to the external registry
-    
-    SAMPLE: "my-user"
+    **Required:** ``true``
 
-- helm-registry-password: The username to authenticate to the external registry
+    **Sample:**  ``".helm/<my-chart>"``
     
-    SAMPLE: "my pass" (should always be secret)
+- **helm-registry-url:** 
+
+    **Description:** ``The full url to the remote registry``
+
+    **Required:** ``true``
+
+    **Sample:** ``"https://myacr.azurecr.io"``
+- **helm-registry-username:**
+    
+    **Description:** ``The username to authenticate to the external registry``
+
+    **Required:** ``true``
+
+    **Sample:** ``"my-user"``
+
+- **helm-registry-password:**
+    
+    **Description:** ``The username to authenticate to the external registry``
+
+    **Required:** ``true``
+
+    **Sample:** ``"my pass" (should always be secret)``
   
 
 ## Example 1

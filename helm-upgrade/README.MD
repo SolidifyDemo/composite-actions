@@ -20,30 +20,72 @@ if this repository is checked into a public repository see example 2.
 
 ## parameters
 
-- azure-credentials: credentials to login to Azure
+- **azure-credentials:**
     
-    SAMPLE: ${{secrets.AZURE_CREDENTIALS}}
-- chart-path: the path to the helm chart
+    **Description:** ``credentials to login to Azure``
 
-    SAMPLE:  ".helm/<my-chart>"
-- azure-subscription: subscription where the cluster is provisioned
+    **Required:** ``true``
+    
+    **Sample:**  ``${{secrets.AZURE_CREDENTIALS}}``
+    
+    
+- **chart-path:** 
+
+    **Description:** ``The path to the helm chart``
+
+    **Required:** ``true``
+    
+    **Sample:** ``".helm/<my-chart>"``
+
+    
+- **azure-subscription:**
   
-    SAMPLE:  "${{secrets.AZURE_AKS_SUBSCRIPTION}}"
--   azure-resource-group: the resource group where the cluster provisioned
+  **Description:** ``subscription where the cluster is provisioned``
 
-    SAMPLE: 'rg-aks    
-- cluster-name: Name of the cluster to target
-
-    SAMPLE: aks-mycluster    
--   image-tag: the image tag to use in the helm chart
-
-    SAMPLE: ${{github.sha}}
-- cluster-namespace: the namespace to target
-
-    SAMPLE: saga-nmp-poc    
-- deployment-name: 'the name of the deployment "kubectl get deployments"'
+    **Required:** ``true``
     
-    SAMPLE : saga-product-service
+    **Sample:** ``"${{secrets.AZURE_AKS_SUBSCRIPTION}}"``
+    
+-   **azure-resource-group:** 
+    
+    **Description:** ``The resource group where the cluster provisioned``
+
+    **Required:** ``true``
+    
+    **Sample:** ``rg-aks``
+    
+- **cluster-name:**
+
+    **Description:** ``Name of the cluster to target``
+
+    **Required:** ``true``
+    
+    **Sample:** ``aks-mycluster``
+    
+-   **image-tag:** 
+
+    **Description:** ``the image tag to use in the helm chart``
+
+    **Required:** ``true``
+    
+    **Sample:** ``${{github.sha}}``
+    
+- **cluster-namespace:**
+    
+    **Description:** ``The namespace to target``
+
+    **Required:** ``true``
+    
+    **Sample:**  ``saga-nmp-poc``
+
+- **deployment-name:**
+    
+    **Description:** ``The name of the deployment "kubectl get deployments"``
+
+    **Required:** ``true``
+    
+    **Sample:** ``saga-product-service``
+    
 
   
 
